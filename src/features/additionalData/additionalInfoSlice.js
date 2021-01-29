@@ -10,27 +10,24 @@ const initialState = {
   isSupermanMode: false,
 }
 
-const boardSlice = createSlice({
+const additionalInfoSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
     startGame(state, action) {
-      return { ...state, gameBeginningTime: moment()}
+      state.gameBeginningTime = moment().toISOString();
     },
 
     endGame(state, action) {
       const { isGameWon } = action.payload
       if (isGameWon) {
-        return { 
-          ...state, 
-          bestScores: state.bestScores.push(calculateDiffToNow(state.gameBeginningTime))
-        }
+        state.bestScores = [...state.bestScores, calculateDiffToNow(moment(state.gameBeginningTime))];
       }
     },
 
     setSupermanMode(state, action) {
       const { isSupermanMode } = action.payload
-      return { ...state, isSupermanMode }
+      state.isSupermanMode = isSupermanMode;
     },
   }
 })
@@ -39,6 +36,6 @@ export const {
   startGame,
   endGame,
   setSupermanMode,
-} = boardSlice.actions
+} = additionalInfoSlice.actions
 
-export default boardSlice.reducer
+export default additionalInfoSlice.reducer

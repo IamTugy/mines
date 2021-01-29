@@ -52,23 +52,24 @@ export const generateBoard = ({ height, width, bombAmount }) => {
 }
 
 export const exposeNearCells = ({ x, y, height, width, board }) => {
-  const boardCopy = JSON.parse(JSON.stringify(board));
   const exposeStack = [[x, y]];
-  const isGameLost = boardCopy[x][y].isBomb;
+  const isGameLost = board[x][y].isBomb;
   while (exposeStack.length > 0) {
     const [currX, currY] = exposeStack[0];
-    boardCopy[currX][currY].isSelected = true;
-    boardCopy[currX][currY].hasFlag = false;
-    const cellData = boardCopy[currX][currY];
-    const cellType = getCellType({...cellData, isSupermanMode: true});
+    const currCellData = board[currX][currY];
+    currCellData.isSelected = !currCellData.hasFlag;
+    const cellType = getCellType({...currCellData, isSupermanMode: true});
     if (cellType === Empty) {
       for( let i = currX-1; i <= currX+1; i++) {
         for( let j = currY-1; j <= currY+1; j++) {
           if ((i >= 0) && (i < height)) {
             if ((j >= 0) && (j < width)) {
-              if (!boardCopy[i][j].isSelected) {
+              const cellData = board[i][j];
+              const currentCellType = getCellType({...cellData, isSupermanMode: true});
+              if (!cellData.isSelected && (currentCellType === Empty)  ) {
                   exposeStack.push([i, j]);
                 }
+                cellData.isSelected = !cellData.hasFlag;
               }
             }
           }
@@ -76,5 +77,5 @@ export const exposeNearCells = ({ x, y, height, width, board }) => {
       }
     exposeStack.shift()
   }
-  return {boardCopy, isGameLost};
+  return isGameLost;
 }

@@ -3,6 +3,8 @@ import { generateBoard, exposeNearCells } from '../../utils/boardUtils'
 
 export const gameWon = 'win';
 export const gameLost = 'lose';
+export const gameOnConfigurations = 'onConfigurations';
+export const gameRunning = 'running';
 
 export const gameFinalStates = [gameWon, gameLost];
 
@@ -13,7 +15,10 @@ const initialState = {
   boardWidth: null,
   totalFlagsAmount: 0,
   usedFlagsAmount: 0,
-  gameState: null,
+  gameState: gameOnConfigurations,
+  bombLocations: null,
+  flagsToggleBomb: null,
+  isFlagMode: false
 }
 
 export const getInitializedCell = () => {
@@ -34,60 +39,68 @@ export const getCellType = ({ isBomb, hasFlag, closeBombs, isSelected, isSuperma
   return hasFlag ? Flag : ((isSelected || isSupermanMode) ? (isBomb ? Bomb : ((closeBombs > 0) ? Number : Empty)) : Empty);
 }
 
+const toggleFlag = (state, action) => {
+  const { x, y } = action.payload
+  const isFlagAdded = !state.cellsContent[x][y].hasFlag;
+
+  /** if removing a flag or if there are flags left to put another **/
+  if ( !isFlagAdded || state.usedFlagsAmount < state.totalFlagsAmount ) {
+    const cellContent = state.cellsContent[x][y]
+
+    if (cellContent.isBomb) {
+      state.bombsDetected += isFlagAdded ? 1 : -1;
+    }
+
+    const isGameWon = state.bombsDetected === state.totalFlagsAmount;
+    state.gameState = isGameWon ? gameWon : gameRunning;
+    cellContent.hasFlag = isFlagAdded;
+    state.usedFlagsAmount = state.usedFlagsAmount + (isFlagAdded ? 1 : -1);
+  }
+};
+
+const displayCell = (state, action) => {
+  const { x, y } = action.payload;
+  const isGameLost = exposeNearCells({
+    x, y, 
+    height: state.boardHeight, 
+    width: state.boardWidth,
+    board: state.cellsContent
+  });
+  state.gameState = isGameLost ? gameLost : gameRunning;
+};
+
+
 const boardSlice = createSlice({
   name: 'board',
+  devTools: false,
   initialState,
   reducers: {
-    createBoard(state, action) {
-      const { height, width, flagAmount } = action.payload
-      return {
-        ...state, 
-        boardHeight: height,
-        boardWidth: width,
-        totalFlagsAmount: flagAmount,
-        usedFlagsAmount: 0,
-        cellsContent: generateBoard({ height, width, bombAmount: flagAmount})
-      }
+    createBoard: (state, action) => {
+      const { height, width, flagAmount } = action.payload;
+
+      state.gameState = gameRunning;
+      state.boardHeight = height;
+      state.boardWidth = width;
+      state.totalFlagsAmount = flagAmount;
+      state.usedFlagsAmount = 0;
+      state.bombsDetected = 0;
+      state.cellsContent = generateBoard({ height, width, bombAmount: flagAmount});
     },
 
-    resetBoard(state, action) {
+    setIsFlagMode: (state, action) => {
+      state.isFlagMode = action.payload;
+    },
+
+    resetBoard: (state, action) => {
       return initialState;
     },
 
-    toggleFlag(state, action) {
-      const { x, y } = action.payload
-      const hasFlag = !state.cellsContent[x][y].hasFlag;
-      if ( !hasFlag || state.usedFlagsAmount < state.totalFlagsAmount ) {
-        const boardCopy = JSON.parse(JSON.stringify(state.cellsContent));
-        boardCopy[x][y].hasFlag = hasFlag;
-        return { 
-          ...state, 
-          usedFlagsAmount: state.usedFlagsAmount + (hasFlag ? 1 : -1), 
-          cellsContent: boardCopy
-        };
+    handleUserClick: (state, action) => {
+      if (state.isFlagMode) {
+        toggleFlag(state, action);
+      } else {
+        displayCell(state, action);
       }
-      return state;
-    },
-
-    resetFlags(state, action) {
-      /** Remove all flags from the board**/
-
-      return { ...state, usedFlagsAmount: 0 }
-    },
-
-    displayCell(state, action) {
-      const { x, y } = action.payload;
-      const { boardCopy, isGameLost } = exposeNearCells({
-        x, y, 
-        height: state.boardHeight, 
-        width: state.boardWidth,
-        board: state.cellsContent
-      });
-      return { 
-        ...state,
-        cellsContent: boardCopy,
-        gameState: isGameLost ? gameLost : null 
-      };
     }
   }
 })
@@ -95,9 +108,8 @@ const boardSlice = createSlice({
 export const {
   createBoard,
   resetBoard,
-  toggleFlag,
-  resetFlags,
-  displayCell
+  setIsFlagMode,
+  handleUserClick
 } = boardSlice.actions
 
 export default boardSlice.reducer

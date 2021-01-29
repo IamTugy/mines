@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Grid } from 'react-virtualized';
 import styled from 'styled-components';
 
-import { createBoard } from '../../features/board/boardSlice';
-import { startGame } from '../../features/additionalData/additionalInfoSlice';
 import Cell from './Cell/Cell';
 
 const BoardWeapper = styled.div`
@@ -11,39 +10,35 @@ const BoardWeapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  user-select: none;
 `;
 
-const RowWeapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
+const cellRenderer = ({ columnIndex, rowIndex, style }) => {
+  return (
+    <Cell 
+      x={rowIndex}
+      y={columnIndex}
+      key={`cell-${rowIndex}-${columnIndex}`}
+      style={style}
+    />);
+}
 
 
-const Board = () => {
-  const { cellsContent } = useSelector(state => state.board);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(startGame())
-    dispatch(createBoard({
-      height: 10,
-      width: 20,
-      flagAmount: 40
-    }));
-  }, [dispatch])
+const Board = ({ cellSize }) => {
+  const boardHeight = useSelector(state => state.board.boardHeight);
+  const boardWidth = useSelector(state => state.board.boardWidth);
 
   return (
     <BoardWeapper>
-      {
-        cellsContent && cellsContent.map((row, x) => 
-        <RowWeapper key={`row-${x}`}>
-          {row.map((content, y) => 
-          <Cell x={x} y={y} key={`cell-${x}-${y}`}/>)}
-        </RowWeapper>)
-      }
+      <Grid
+        cellRenderer={cellRenderer}
+        columnCount={boardWidth}
+        rowCount={boardHeight}
+        columnWidth={cellSize}
+        rowHeight={cellSize}
+        height={ Math.min(cellSize * boardHeight, cellSize * 14) }
+        width={ Math.min(cellSize * boardWidth, cellSize * 37) + 20 }
+        style={{ outline: 'none', borderWidth: 0 }}
+      />
     </BoardWeapper>
   );
 }

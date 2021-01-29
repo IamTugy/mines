@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux'
 import styled from 'styled-components';
 
 import InfoButton from '../AbstractInfoButton';
+import { gameWon } from '../../../features/board/boardSlice'
 import { FaFlag } from 'react-icons/fa';
 
 const TextWrapper = styled.div`
@@ -10,11 +11,18 @@ const TextWrapper = styled.div`
 `;
 
 const Flags = () => {
-  const { totalFlagsAmount, usedFlagsAmount} = useSelector(state => state.board);
+  const [totalFlagsAmount, usedFlagsAmount, gameState] = useSelector(
+    state => [
+      state.board.totalFlagsAmount, 
+      state.board.usedFlagsAmount, 
+      state.board.gameState
+    ], shallowEqual);
 
   return (
       <InfoButton>
-        <FaFlag/>
+        <FaFlag 
+          style={{ color: (gameState === gameWon) ? "green" : (usedFlagsAmount === totalFlagsAmount) && "red"}}
+        />
         <TextWrapper>
           {`${usedFlagsAmount}/${totalFlagsAmount}`}
         </TextWrapper>

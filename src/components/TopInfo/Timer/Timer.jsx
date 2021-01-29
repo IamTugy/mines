@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
+import moment from 'moment';
 import styled from 'styled-components';
 
 import { calculateDiffToNow, getTimerAsText} from '../../../utils/TimeUtils';
@@ -12,16 +13,15 @@ const TextWrapper = styled.div`
   margin-left: 10px;
 `;
 
-const Timer = () => {
+const TimerDisplay = ({gameState}) => {
   const [timerMs, setTimerMs] = useState(null);
-  
   const gameBeginningTime = useSelector(state => state.additionalData.gameBeginningTime)
-  const gameState = useSelector(state => state.board.gameState);
+
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
       if (!gameFinalStates.includes(gameState)) {
-        setTimerMs(calculateDiffToNow(gameBeginningTime));
+        setTimerMs(calculateDiffToNow(moment(gameBeginningTime)));
       }
     }, 1000)
     return () => {
@@ -30,11 +30,21 @@ const Timer = () => {
   }, [gameBeginningTime, gameState]);
 
   return (
+    <TextWrapper>
+      {timerMs ? getTimerAsText(timerMs) : null}
+    </TextWrapper>
+  )
+}
+
+const Timer = () => {
+  const gameState = useSelector(state => state.board.gameState);
+
+  return (
       <InfoButton>
-        <FaStopwatch/>
-        <TextWrapper>
-          {getTimerAsText(timerMs)}
-        </TextWrapper>
+        <FaStopwatch 
+          style={{ color: gameFinalStates.includes(gameState) && "red"}}
+        />
+        <TimerDisplay gameState={gameState}/>
       </InfoButton>
   )
 }

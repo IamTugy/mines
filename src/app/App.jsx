@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import { endGame } from '../features/additionalData/additionalInfoSlice'
 import { gameFinalStates, gameWon } from '../features/board/boardSlice'
 import TopInfoBar from '../components/TopInfo';
+import ChooseBoard from '../components/ChooseBoard/index'
 import Board from '../components/Board/Board';
-
 const MainPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-
+  justify-content: center;
+  user-select: none;
 `;
 
 const App = () => {
@@ -27,8 +27,11 @@ const App = () => {
 
   return (
     <MainPage>
+      <ChooseBoard/>
       <TopInfoBar/>
-      <Board/>
+      <Board
+        cellSize={50}
+      />
     </MainPage>
   );
 }
