@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { generateBoard, exposeNearCells } from '../../utils/boardUtils'
+import { createSlice } from '@reduxjs/toolkit';
+import { generateBoard, exposeNearCells } from '../../utils/boardUtils';
 
 export const gameWon = 'win';
 export const gameLost = 'lose';
@@ -19,7 +19,7 @@ const initialState = {
   bombLocations: null,
   flagsToggleBomb: null,
   isFlagMode: false
-}
+};
 
 export const getInitializedCell = () => {
   return {
@@ -28,16 +28,16 @@ export const getInitializedCell = () => {
     closeBombs: 0,
     isSelected: false,
   }
-}
+};
 
 export const Flag = "flag";
 export const Bomb = "bomb";
 export const Number = "number";
 export const Empty = "empty";
 
-export const getCellType = ({ isBomb, hasFlag, closeBombs, isSelected, isSupermanMode }) => {
-  return hasFlag ? Flag : ((isSelected || isSupermanMode) ? (isBomb ? Bomb : ((closeBombs > 0) ? Number : Empty)) : Empty);
-}
+export const getCellType = (cellData, isSupermanMode) => {
+  return cellData.hasFlag ? Flag : ((cellData.isSelected || isSupermanMode) ? (cellData.isBomb ? Bomb : ((cellData.closeBombs > 0) ? Number : Empty)) : Empty);
+};
 
 const toggleFlag = (state, action) => {
   const { x, y } = action.payload
@@ -119,6 +119,6 @@ export const {
   resetBoard,
   setIsFlagMode,
   handleUserClick
-} = boardSlice.actions
+} = boardSlice.actions;
 
-export default boardSlice.reducer
+export default boardSlice.reducer;

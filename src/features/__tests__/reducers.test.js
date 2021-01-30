@@ -1,5 +1,5 @@
-import reducers from '../board/boardSlice'
-import {givenState, expectedState} from '../__snapshots__/shownEmptyCells.js'
+import reducers from '../board/boardSlice';
+import {givenState, expectedState} from '../__snapshots__/shownEmptyCells.js';
 
 describe('test reducers', () => {
   it('should reveal the right cells on reveal action on empty space', () => {

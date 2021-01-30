@@ -1,9 +1,9 @@
 import React from 'react';
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import InfoButton from '../AbstractInfoButton';
-import { gameWon } from '../../../features/board/boardSlice'
+import { gameWon } from '../../../features/board/boardSlice';
 import { FaFlag } from 'react-icons/fa';
 
 const TextWrapper = styled.div`

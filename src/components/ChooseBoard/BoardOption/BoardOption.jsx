@@ -7,7 +7,7 @@ import { FaFlag, FaBorderAll, FaTrophy, FaChild } from 'react-icons/fa';
 
 import { createBoard } from '../../../features/board/boardSlice';
 import { startGame } from '../../../features/additionalData/additionalInfoSlice';
-import { getTimerAsText } from '../../../utils/TimeUtils'
+import { getTimerAsText } from '../../../utils/TimeUtils';
 
 const BoardOptionWrapper = styled.div`
   display: flex;
@@ -51,14 +51,14 @@ const InputText = styled.input`
   color: ${props => props.isTextValid ? 'black' : 'red'};
 `;
 
-const isPositiveNumber = str => Number.isInteger(lodash.toNumber(str)) && parseInt(str) > 0
+const isPositiveNumber = str => Number.isInteger(lodash.toNumber(str)) && parseInt(str) > 0;
 
 const NumericStyledInput = ({ onChangeHandler }) => {
   const [isTextValid, setIsTextValid] = useState(true);
 
   const onChange = event => {
     const newValue = event.target.value;
-    const isValueValid = isPositiveNumber(newValue) || ["", null].includes(newValue)
+    const isValueValid = isPositiveNumber(newValue) || ["", null].includes(newValue);
     setIsTextValid(isValueValid);
     if ( isValueValid ) {
       onChangeHandler(parseInt(newValue));
@@ -81,7 +81,7 @@ const BestScore = ({ gameMode }) => {
   const [bestScore, setBestScore] = useState(null);
 
   useEffect(() => {
-    const minTimeScore = lodash.minBy(bestScores, (obj) => obj.time)
+    const minTimeScore = lodash.minBy(bestScores, (obj) => obj.time);
     setBestScore(minTimeScore);
   }, [bestScores])
 
@@ -105,7 +105,7 @@ export const CastumBoardOption = () => {
   const [flagAmount, setFlagAmount] = useState(null);
   const modeName = 'Custom Mode';
   const fullGameMode = `${modeName} ${height}X${width}/${flagAmount}`;
-  const isClickable = height && width && flagAmount
+  const isClickable = height && width && flagAmount;
   
   return (
     <CustomOptionWrapper 

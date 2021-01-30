@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { gameFinalStates, resetBoard } from '../../../features/board/boardSlice'
+import { gameFinalStates, resetBoard } from '../../../features/board/boardSlice';
 import InfoButton from '../AbstractInfoButton';
 import { FaReply } from 'react-icons/fa';
 

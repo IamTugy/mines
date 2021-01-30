@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
 import lodash from 'lodash';
 
-import { calculateDiffToNow } from '../../utils/TimeUtils'
+import { calculateDiffToNow } from '../../utils/TimeUtils';
 
-export const dafaultPlayerName = 'Unknown'
+export const dafaultPlayerName = 'Unknown';
 
 const initialState = {
   /** Previus games best score **/
@@ -13,7 +13,7 @@ const initialState = {
   isSupermanMode: false,
   gameMode: null,
   playerName: dafaultPlayerName,
-}
+};
 
 const additionalDataSlice = createSlice({
   name: 'additionalData',
@@ -54,6 +54,6 @@ export const {
   endGame,
   setSupermanMode,
   changePlayerName
-} = additionalDataSlice.actions
+} = additionalDataSlice.actions;
 
-export default additionalDataSlice.reducer
+export default additionalDataSlice.reducer;

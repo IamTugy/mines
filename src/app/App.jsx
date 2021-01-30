@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import { endGame } from '../features/additionalData/additionalInfoSlice'
-import { gameFinalStates, gameWon, gameOnConfigurations } from '../features/board/boardSlice'
+import { endGame } from '../features/additionalData/additionalInfoSlice';
+import { gameFinalStates, gameWon, gameOnConfigurations } from '../features/board/boardSlice';
 import TopInfoBar from '../components/TopInfo';
-import ChooseBoard from '../components/ChooseBoard/index'
+import ChooseBoard from '../components/ChooseBoard/index';
 import Board from '../components/Board/Board';
 const MainPage = styled.div`
   display: flex;

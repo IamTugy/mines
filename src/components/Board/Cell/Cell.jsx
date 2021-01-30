@@ -5,7 +5,7 @@ import { FaBomb, FaFlag } from 'react-icons/fa';
 
 import { 
     gameFinalStates, Flag, Bomb, Number, Empty, 
-    getCellType, gameLost, gameWon, handleUserClick 
+    getCellType, gameWon, handleUserClick 
 } from '../../../features/board/boardSlice';
 
 const selectedColor = "#dedede";
@@ -64,12 +64,12 @@ const Cell = ({ x, y, style }) => {
     useEffect(() => {
         setIsCellSelected(cellData.isSelected);
         setClosedBombs(cellData.closeBombs);
-        setCellType(getCellType({...cellData, isSupermanMode: (isSupermanMode || (gameState === gameLost))}));
+        setCellType(getCellType(cellData, (isSupermanMode || gameFinalStates.includes(gameState))));
     }, [cellData, isSupermanMode, gameState])
 
     const handleClick = () => {
         if (!isCellSelected && !gameFinalStates.includes(gameState)) {
-            dispatch(handleUserClick({x, y}))
+            dispatch(handleUserClick({x, y}));
         }
     }
 

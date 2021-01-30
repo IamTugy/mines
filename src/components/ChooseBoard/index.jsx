@@ -23,9 +23,9 @@ const BoardRowWrapper = styled.div`
 `;
 
 const PlayerNameInput = () => {
-  const prevPlayerName = useSelector(state => state.additionalData.playerName)
+  const prevPlayerName = useSelector(state => state.additionalData.playerName);
   const [playerName, setPlayerName] = useState(prevPlayerName);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (playerName !== prevPlayerName){

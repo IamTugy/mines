@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flags from './Flags/Flags'
-import Timer from './Timer/Timer'
-import SupermanMode from './SupermanMode/SupermanMode'
-import RePlay from './RePlay/RePlay'
+import Flags from './Flags/Flags';
+import Timer from './Timer/Timer';
+import SupermanMode from './SupermanMode/SupermanMode';
+import RePlay from './RePlay/RePlay';
 
 const TopInfoBarWrapper = styled.div`
   display: flex;
