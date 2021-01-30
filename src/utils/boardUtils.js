@@ -16,12 +16,12 @@ const excecuteActionOnNearCells = (x, y, height, width, board, action) => {
 
 const addCloseBombs = ( height, width, board ) => {
   /** Add the amount of boms closed to the cell in all the board **/
-  const action = (i, j, board) => board[i][j].closeBombs += 1;
+  const addBombsToNearCellsCounter = (i, j, board) => board[i][j].closeBombs += 1;
   for( let x = 0; x < height; x++) {
     for( let y = 0; y < width; y++) {
       if (board[x][y].isBomb) {
         /** add bomb counter to relatives **/
-        excecuteActionOnNearCells(x, y, height, width, board, action);
+        excecuteActionOnNearCells(x, y, height, width, board, addBombsToNearCellsCounter);
       }
     }
   }
@@ -32,7 +32,7 @@ export const generateBoard = ({ height, width, bombAmount, randomSeedKey }) => {
   const randomeSeed = new seedrandom(randomSeedKey);
   let bombsPlaced = 0;
   let passedCells = 0; 
-  let newBoard = new Array(height);
+  const newBoard = new Array(height);
   for( let i = 0; i < height; i++) {
     newBoard[i] = new Array(width);
     for( let j = 0; j < width; j++) {
@@ -57,7 +57,7 @@ export const generateBoard = ({ height, width, bombAmount, randomSeedKey }) => {
 export const exposeNearCells = ({ x, y, height, width, board }) => {
   const exposeStack = [[x, y]];
 
-  const action = (i, j, board) => {
+  const exposeCell = (i, j, board) => {
     const cellData = board[i][j];
     const currentCellType = getCellType(cellData, true);
     if (!cellData.isSelected && (currentCellType === Empty)) {
@@ -72,7 +72,7 @@ export const exposeNearCells = ({ x, y, height, width, board }) => {
     currCellData.isSelected = !currCellData.hasFlag;
     const cellType = getCellType(currCellData, true);
     if (cellType === Empty) {
-      excecuteActionOnNearCells(x, y, height, width, board, action);
+      excecuteActionOnNearCells(x, y, height, width, board, exposeCell);
       }
     exposeStack.shift();
   }
