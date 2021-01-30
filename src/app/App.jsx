@@ -7,6 +7,8 @@ import { gameFinalStates, gameWon, gameOnConfigurations } from '../features/boar
 import TopInfoBar from '../components/TopInfo';
 import ChooseBoard from '../components/ChooseBoard/index';
 import Board from '../components/Board/Board';
+import GameEndedDialog from '../components/GameEndedDialog'
+
 const MainPage = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,6 +37,7 @@ const App = () => {
         <Board
           cellSize={50}
         />
+        <GameEndedDialog gameState={gameState}/>
       </>
     }
     </MainPage>

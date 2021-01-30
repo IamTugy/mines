@@ -4,7 +4,7 @@ import lodash from 'lodash';
 
 import { calculateDiffToNow } from '../../utils/TimeUtils';
 
-export const dafaultPlayerName = 'Unknown';
+export const dafaultPlayerName = 'Unknown Player';
 
 const initialState = {
   /** Previus games best score **/

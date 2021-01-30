@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { generateBoard, exposeNearCells } from '../../utils/boardUtils';
 
-export const gameWon = 'win';
-export const gameLost = 'lose';
+export const gameWon = 'WON';
+export const gameLost = 'LOST';
 export const gameOnConfigurations = 'onConfigurations';
 export const gameRunning = 'running';
 
