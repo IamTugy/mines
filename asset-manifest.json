@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/mines-web/static/css/main.a72fae33.chunk.css",
-    "main.js": "/mines-web/static/js/main.01015bda.chunk.js",
-    "main.js.map": "/mines-web/static/js/main.01015bda.chunk.js.map",
+    "main.js": "/mines-web/static/js/main.a3809126.chunk.js",
+    "main.js.map": "/mines-web/static/js/main.a3809126.chunk.js.map",
     "runtime-main.js": "/mines-web/static/js/runtime-main.2c1f37c7.js",
     "runtime-main.js.map": "/mines-web/static/js/runtime-main.2c1f37c7.js.map",
-    "static/js/2.374a60c2.chunk.js": "/mines-web/static/js/2.374a60c2.chunk.js",
-    "static/js/2.374a60c2.chunk.js.map": "/mines-web/static/js/2.374a60c2.chunk.js.map",
+    "static/js/2.44ae8120.chunk.js": "/mines-web/static/js/2.44ae8120.chunk.js",
+    "static/js/2.44ae8120.chunk.js.map": "/mines-web/static/js/2.44ae8120.chunk.js.map",
     "index.html": "/mines-web/index.html",
     "static/css/main.a72fae33.chunk.css.map": "/mines-web/static/css/main.a72fae33.chunk.css.map",
-    "static/js/2.374a60c2.chunk.js.LICENSE.txt": "/mines-web/static/js/2.374a60c2.chunk.js.LICENSE.txt"
+    "static/js/2.44ae8120.chunk.js.LICENSE.txt": "/mines-web/static/js/2.44ae8120.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2c1f37c7.js",
-    "static/js/2.374a60c2.chunk.js",
+    "static/js/2.44ae8120.chunk.js",
     "static/css/main.a72fae33.chunk.css",
-    "static/js/main.01015bda.chunk.js"
+    "static/js/main.a3809126.chunk.js"
   ]
 }
