@@ -1,27 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
+import lodash from 'lodash';
 
 import { calculateDiffToNow } from '../../utils/TimeUtils'
 
+export const dafaultPlayerName = 'Unknown'
+
 const initialState = {
   /** Previus games best score **/
-  bestScores: [],
+  bestScores: {},
   gameBeginningTime: null,
   isSupermanMode: false,
+  gameMode: null,
+  playerName: dafaultPlayerName,
 }
 
-const additionalInfoSlice = createSlice({
-  name: 'board',
+const additionalDataSlice = createSlice({
+  name: 'additionalData',
   initialState,
   reducers: {
     startGame(state, action) {
+      const { gameMode } = action.payload
+      state.isSupermanMode = false;
+      state.gameMode = gameMode;
       state.gameBeginningTime = moment().toISOString();
     },
 
     endGame(state, action) {
       const { isGameWon } = action.payload
       if (isGameWon) {
-        state.bestScores = [...state.bestScores, calculateDiffToNow(moment(state.gameBeginningTime))];
+        const defaultValue = {}
+        defaultValue[state.gameMode] = [];
+        const bestScores = lodash.defaults(state.bestScores, defaultValue)
+        bestScores[state.gameMode].push({ playerName: state.playerName, time: calculateDiffToNow(moment(state.gameBeginningTime)) })
+        state.bestScores = bestScores;
       }
     },
 
@@ -29,6 +41,11 @@ const additionalInfoSlice = createSlice({
       const { isSupermanMode } = action.payload
       state.isSupermanMode = isSupermanMode;
     },
+
+    changePlayerName(state, action) {
+      const playerName = action.payload;
+      state.playerName = [null, ""].includes(playerName) ? dafaultPlayerName : playerName;
+    }
   }
 })
 
@@ -36,6 +53,7 @@ export const {
   startGame,
   endGame,
   setSupermanMode,
-} = additionalInfoSlice.actions
+  changePlayerName
+} = additionalDataSlice.actions
 
-export default additionalInfoSlice.reducer
+export default additionalDataSlice.reducer

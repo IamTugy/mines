@@ -9,12 +9,14 @@ const InfoButtonWrapper = styled.div`
   cursor: pointer;
 
   height: 100px;
-  width: 250px;
+  min-width: 250px;
   border-radius: 20px;
   font-size: 40px;
   background-color: #c2c2c2;
 
   margin: 20px;
+  padding-right: 15px; 
+  padding-left: 15px;
 `;
 
 export const InfoButton = ({ onClick, children }) => {

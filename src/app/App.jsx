@@ -3,16 +3,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components';
 
 import { endGame } from '../features/additionalData/additionalInfoSlice'
-import { gameFinalStates, gameWon } from '../features/board/boardSlice'
+import { gameFinalStates, gameWon, gameOnConfigurations } from '../features/board/boardSlice'
 import TopInfoBar from '../components/TopInfo';
 import ChooseBoard from '../components/ChooseBoard/index'
 import Board from '../components/Board/Board';
 const MainPage = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   user-select: none;
+  
+  height: 100%;
+  width: 100%;
 `;
 
 const App = () => {
@@ -27,11 +28,15 @@ const App = () => {
 
   return (
     <MainPage>
-      <ChooseBoard/>
-      <TopInfoBar/>
-      <Board
-        cellSize={50}
-      />
+      {
+      (gameState === gameOnConfigurations) ? <ChooseBoard/> :
+      <>
+        <TopInfoBar/>
+        <Board
+          cellSize={50}
+        />
+      </>
+    }
     </MainPage>
   );
 }

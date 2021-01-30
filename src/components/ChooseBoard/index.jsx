@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import TextField from '@material-ui/core/TextField';
 
-import BoardOption, { CastumBoardOption } from './BoardOption/BoardOption'
+import BoardOption, { CastumBoardOption } from './BoardOption/BoardOption';
+import { changePlayerName } from '../../features/additionalData/additionalInfoSlice';
 
 const ChooseBoardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin: auto;
 `;
 
 const BoardRowWrapper = styled.div`
@@ -17,9 +22,33 @@ const BoardRowWrapper = styled.div`
 
 `;
 
+const PlayerNameInput = () => {
+  const prevPlayerName = useSelector(state => state.additionalData.playerName)
+  const [playerName, setPlayerName] = useState(prevPlayerName);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (playerName !== prevPlayerName){
+      dispatch(changePlayerName(playerName));
+    }
+  }, [dispatch, playerName, prevPlayerName])
+
+  return (
+    <TextField 
+      label="Player Name" 
+      defaultValue={prevPlayerName}
+      onChange={event => {setPlayerName(event.target.value)}}
+    />
+  )
+
+}
+
 export const ChooseBoard = () => {
   return (
     <ChooseBoardWrapper>
+      <BoardRowWrapper style={{ marginBottom: '20px' }}>
+        <PlayerNameInput/>
+      </BoardRowWrapper>
       <BoardRowWrapper>
         <BoardOption 
           modeName='Child Mode'

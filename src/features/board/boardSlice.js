@@ -60,13 +60,22 @@ const toggleFlag = (state, action) => {
 
 const displayCell = (state, action) => {
   const { x, y } = action.payload;
-  const isGameLost = exposeNearCells({
+  const {isBomb, hasFlag} = state.cellsContent[x][y];
+
+  if (hasFlag) return;
+
+  if (isBomb) {
+    state.cellsContent[x][y].isSelected = true;
+    state.gameState = gameLost;
+    return;
+  }
+
+  exposeNearCells({
     x, y, 
     height: state.boardHeight, 
     width: state.boardWidth,
     board: state.cellsContent
   });
-  state.gameState = isGameLost ? gameLost : gameRunning;
 };
 
 

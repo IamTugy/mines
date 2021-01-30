@@ -4,11 +4,14 @@ import styled from 'styled-components';
 import Flags from './Flags/Flags'
 import Timer from './Timer/Timer'
 import SupermanMode from './SupermanMode/SupermanMode'
+import RePlay from './RePlay/RePlay'
 
 const TopInfoBarWrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 
   width: 100%;
 `;
@@ -16,9 +19,10 @@ const TopInfoBarWrapper = styled.div`
 export const TopInfoBar = () => {
   return (
     <TopInfoBarWrapper>
+      <SupermanMode/>
       <Timer/>
       <Flags/>
-      <SupermanMode/>
+      <RePlay/>
     </TopInfoBarWrapper>
   )
 }

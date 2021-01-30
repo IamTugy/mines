@@ -1,26 +1,27 @@
-import { getInitializedCell, getCellType, Empty, Bomb } from '../features/board/boardSlice';
+import { getInitializedCell, getCellType, Empty } from '../features/board/boardSlice';
 
 const randomeBomb = ({bombAmount, cellsAmount}) => {
   return (Math.random() < (bombAmount / cellsAmount))
 }
 
-const addBombToRelatives = ( x, y, height, width, board ) => {
-  for( let i = x-1; i <= x+1; i++) {
-    for( let j = y-1; j <= y+1; j++) {
-      if ((i >= 0) && (i < height)) {
-        if ((j >= 0) && (j < width)) {
-          board[i][j].closeBombs += 1;
-        }
-      }
+const excecuteActionOnNearCells = ({ x, y, height, width, board, action }) => {
+  for( let i = Math.max(0, x-1); i <= Math.min(height-1, x+1); i++) {
+    for( let j = Math.max(0, y-1); j <= Math.min(width-1, y+1); j++) {
+      action(i, j, board);
     }
   }
 }
 
 const addCloseBombs = ( height, width, board ) => {
-  for( let i = 0; i < height; i++) {
-    for( let j = 0; j < width; j++) {
-      if (board[i][j].isBomb) {
-        addBombToRelatives(i, j, height, width, board);
+  /** Add the amount of boms closed to the cell in all the board **/
+  for( let x = 0; x < height; x++) {
+    for( let y = 0; y < width; y++) {
+      if (board[x][y].isBomb) {
+        /** add bomb counter to relatives **/
+        excecuteActionOnNearCells({
+          x, y, height, width, board, 
+          action: (i, j, board) => board[i][j].closeBombs += 1
+        });
       }
     }
   }
@@ -53,29 +54,25 @@ export const generateBoard = ({ height, width, bombAmount }) => {
 
 export const exposeNearCells = ({ x, y, height, width, board }) => {
   const exposeStack = [[x, y]];
-  const isGameLost = board[x][y].isBomb;
   while (exposeStack.length > 0) {
     const [currX, currY] = exposeStack[0];
     const currCellData = board[currX][currY];
     currCellData.isSelected = !currCellData.hasFlag;
     const cellType = getCellType({...currCellData, isSupermanMode: true});
     if (cellType === Empty) {
-      for( let i = currX-1; i <= currX+1; i++) {
-        for( let j = currY-1; j <= currY+1; j++) {
-          if ((i >= 0) && (i < height)) {
-            if ((j >= 0) && (j < width)) {
-              const cellData = board[i][j];
-              const currentCellType = getCellType({...cellData, isSupermanMode: true});
-              if (!cellData.isSelected && (currentCellType === Empty)  ) {
-                  exposeStack.push([i, j]);
-                }
-                cellData.isSelected = !cellData.hasFlag;
-              }
+      excecuteActionOnNearCells({
+        x: currX, y: currY, height, width, board,
+        action: (i, j, board) => {
+          console.log("here")
+          const cellData = board[i][j];
+          const currentCellType = getCellType({...cellData, isSupermanMode: true});
+          if (!cellData.isSelected && (currentCellType === Empty)) {
+              exposeStack.push([i, j]);
             }
+            cellData.isSelected = !cellData.hasFlag;
           }
-        }
+        })
       }
     exposeStack.shift()
   }
-  return isGameLost;
 }
