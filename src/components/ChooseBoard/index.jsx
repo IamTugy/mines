@@ -74,7 +74,7 @@ export const ChooseBoard = () => {
           modeName='Check my limits Mode'
           height={1000}
           width={1000}
-          flagAmount={100000}
+          flagAmount={110000}
         />
       </BoardRowWrapper>
       <BoardRowWrapper>

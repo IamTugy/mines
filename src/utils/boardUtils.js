@@ -67,12 +67,12 @@ export const exposeNearCells = ({ x, y, height, width, board }) => {
   }
   
   while (exposeStack.length > 0) {
-    const [currX, currY] = exposeStack[0];
-    const currCellData = board[currX][currY];
+    const [x, y] = exposeStack[0];
+    const currCellData = board[x][y];
     currCellData.isSelected = !currCellData.hasFlag;
     const cellType = getCellType(currCellData, true);
     if (cellType === Empty) {
-      excecuteActionOnNearCells(currX, currY, height, width, board, action);
+      excecuteActionOnNearCells(x, y, height, width, board, action);
       }
     exposeStack.shift();
   }
