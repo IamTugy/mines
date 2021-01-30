@@ -6,8 +6,28 @@ import InfoButton from '../AbstractInfoButton';
 import { gameWon } from '../../../features/board/boardSlice';
 import { FaFlag } from 'react-icons/fa';
 
-const TextWrapper = styled.div`
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FlagAmountWrapper = styled.div`
   margin-left: 10px;
+`;
+
+const CommenttWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 15px;
+  color: #5a5a5a;
 `;
 
 const Flags = () => {
@@ -20,12 +40,19 @@ const Flags = () => {
 
   return (
       <InfoButton>
-        <FaFlag 
-          style={{ color: (gameState === gameWon) ? "green" : (usedFlagsAmount === totalFlagsAmount) && "red"}}
-        />
-        <TextWrapper>
-          {`${usedFlagsAmount}/${totalFlagsAmount}`}
-        </TextWrapper>
+        <MainWrapper>
+          <RowWrapper>
+            <FaFlag 
+              style={{ color: (gameState === gameWon) ? "green" : (usedFlagsAmount === totalFlagsAmount) && "red"}}
+            />
+            <FlagAmountWrapper>
+              {`${usedFlagsAmount}/${totalFlagsAmount}`}
+            </FlagAmountWrapper>
+          </RowWrapper>
+          <CommenttWrapper>
+            {`Shift+LeftClick for Flag`}
+          </CommenttWrapper>
+        </MainWrapper>
       </InfoButton>
   )
 }
