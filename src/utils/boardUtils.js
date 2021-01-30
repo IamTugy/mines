@@ -1,7 +1,9 @@
+import seedrandom from 'seedrandom';
+
 import { getInitializedCell, getCellType, Empty } from '../features/board/boardSlice';
 
-const randomeBomb = ({bombAmount, cellsAmount}) => {
-  return (Math.random() < (bombAmount / cellsAmount));
+const randomBomb = ({bombAmount, cellsAmount, randomeSeed}) => {
+  return (randomeSeed() < (bombAmount / cellsAmount));
 };
 
 const excecuteActionOnNearCells = (x, y, height, width, board, action) => {
@@ -25,8 +27,9 @@ const addCloseBombs = ( height, width, board ) => {
   }
 };
 
-export const generateBoard = ({ height, width, bombAmount }) => {
+export const generateBoard = ({ height, width, bombAmount, randomSeedKey }) => {
   /** Generate a board with only bombs **/
+  const randomeSeed = new seedrandom(randomSeedKey);
   let bombsPlaced = 0;
   let passedCells = 0; 
   let newBoard = new Array(height);
@@ -34,9 +37,10 @@ export const generateBoard = ({ height, width, bombAmount }) => {
     newBoard[i] = new Array(width);
     for( let j = 0; j < width; j++) {
       newBoard[i][j] = getInitializedCell();
-      const isBomb = randomeBomb({
+      const isBomb = randomBomb({
         bombAmount: bombAmount - bombsPlaced,
-        cellsAmount: height * width - passedCells
+        cellsAmount: height * width - passedCells,
+        randomeSeed
       });
       newBoard[i][j].isBomb = isBomb;
       bombsPlaced += isBomb ? 1 : 0;

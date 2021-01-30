@@ -12,7 +12,10 @@ const targetKey = 'Shift'
 
 const pressHandler = ( key, isKeyPressed) => {
   if (key === targetKey) {
-    store.dispatch(setIsFlagMode(isKeyPressed));
+    const state = store.getState();
+    if (state.board.isFlagMode !== isKeyPressed) {
+      store.dispatch(setIsFlagMode(isKeyPressed));
+    }
   }
 };
 

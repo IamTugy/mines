@@ -65,7 +65,7 @@ export const ChooseBoard = () => {
       </BoardRowWrapper>
       <BoardRowWrapper>
         <BoardOption 
-          modeName='Fuck Me Mode'
+          modeName='Challenge Mode'
           height={300}
           width={300}
           flagAmount={10000}

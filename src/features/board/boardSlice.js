@@ -8,17 +8,18 @@ export const gameRunning = 'running';
 
 export const gameFinalStates = [gameWon, gameLost];
 
-const initialState = {
-  /** The content of the board, two dimentional list of all the data **/
-  cellsContent: null,
-  boardHeight: null,
-  boardWidth: null,
-  totalFlagsAmount: 0,
-  usedFlagsAmount: 0,
-  gameState: gameOnConfigurations,
-  bombLocations: null,
-  flagsToggleBomb: null,
-  isFlagMode: false
+const getInitialState = (seed) => {
+  return {
+    /** The content of the board, two dimentional list of all the data **/
+    cellsContent: null,
+    boardHeight: null,
+    boardWidth: null,
+    totalFlagsAmount: 0,
+    usedFlagsAmount: 0,
+    gameState: gameOnConfigurations,
+    isFlagMode: false,
+    randomSeedKey: seed,
+  }
 };
 
 export const getInitializedCell = () => {
@@ -41,11 +42,11 @@ export const getCellType = (cellData, isSupermanMode) => {
 
 const toggleFlag = (state, action) => {
   const { x, y } = action.payload
-  const isFlagAdded = !state.cellsContent[x][y].hasFlag;
+  const cellContent = state.cellsContent[x][y];
+  const isFlagAdded = !cellContent.hasFlag;
 
   /** if removing a flag or if there are flags left to put another **/
   if ( !isFlagAdded || state.usedFlagsAmount < state.totalFlagsAmount ) {
-    const cellContent = state.cellsContent[x][y]
 
     if (cellContent.isBomb) {
       state.bombsDetected += isFlagAdded ? 1 : -1;
@@ -82,7 +83,7 @@ const displayCell = (state, action) => {
 const boardSlice = createSlice({
   name: 'board',
   devTools: false,
-  initialState,
+  initialState: getInitialState(Math.random()),
   reducers: {
     createBoard: (state, action) => {
       const { height, width, flagAmount } = action.payload;
@@ -93,7 +94,7 @@ const boardSlice = createSlice({
       state.totalFlagsAmount = flagAmount;
       state.usedFlagsAmount = 0;
       state.bombsDetected = 0;
-      state.cellsContent = generateBoard({ height, width, bombAmount: flagAmount});
+      state.cellsContent = generateBoard({ height, width, bombAmount: flagAmount, randomSeedKey: state.randomSeedKey});
     },
 
     setIsFlagMode: (state, action) => {
@@ -101,7 +102,7 @@ const boardSlice = createSlice({
     },
 
     resetBoard: (state, action) => {
-      return initialState;
+      return getInitialState(Math.random());
     },
 
     handleUserClick: (state, action) => {
