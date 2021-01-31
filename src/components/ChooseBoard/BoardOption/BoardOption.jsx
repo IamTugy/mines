@@ -93,16 +93,19 @@ export const CastumBoardOption = () => {
   const [flagAmount, setFlagAmount] = useState(null);
   const modeName = 'Custom Mode';
   const fullGameMode = `${modeName} ${height}X${width}/${flagAmount}`;
-  const isClickable = height && width && flagAmount;
+  const isClickable = Boolean(height && width && flagAmount);
   
   return (
     <CustomOptionWrapper 
       isClickable={isClickable}
       onClick={() => {
-      if ( isClickable )
-        dispatch(setGameState(gamePreRunning));
-        dispatch(createBoard({height, width, flagAmount}));
-        dispatch(startGame({ gameMode: fullGameMode}));
+        if ( isClickable ) {
+          dispatch(setGameState(gamePreRunning));
+          setImmediate(() => {
+            dispatch(createBoard({height, width, flagAmount}));
+            dispatch(startGame({ gameMode: fullGameMode}));
+          });
+        }
       }}
       style={{ backgroundColor: isClickable && "#a8d0a8" }}
     >
