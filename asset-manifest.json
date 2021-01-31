@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/mines-web/static/css/main.a72fae33.chunk.css",
-    "main.js": "/mines-web/static/js/main.b365e216.chunk.js",
-    "main.js.map": "/mines-web/static/js/main.b365e216.chunk.js.map",
+    "main.js": "/mines-web/static/js/main.92f31233.chunk.js",
+    "main.js.map": "/mines-web/static/js/main.92f31233.chunk.js.map",
     "runtime-main.js": "/mines-web/static/js/runtime-main.2c1f37c7.js",
     "runtime-main.js.map": "/mines-web/static/js/runtime-main.2c1f37c7.js.map",
     "static/js/2.ba00198a.chunk.js": "/mines-web/static/js/2.ba00198a.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.2c1f37c7.js",
     "static/js/2.ba00198a.chunk.js",
     "static/css/main.a72fae33.chunk.css",
-    "static/js/main.b365e216.chunk.js"
+    "static/js/main.92f31233.chunk.js"
   ]
 }
