@@ -30,7 +30,7 @@ const ButtonsRow = styled.div`
 
 export const GameEndedDialog = ({gameState}) => {
   const dispatch = useDispatch();
-  const playerName = useSelector(state => state.additionalData.playerName)
+  const playerName = useSelector(state => state.additionalData.playerName);
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {

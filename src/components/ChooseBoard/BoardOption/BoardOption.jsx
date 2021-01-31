@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import lodash from 'lodash';
 
-import { FaFlag, FaBorderAll, FaTrophy, FaChild } from 'react-icons/fa';
+import { FaFlag, FaBorderAll } from 'react-icons/fa';
 
 import { createBoard } from '../../../features/board/boardSlice';
 import { startGame } from '../../../features/additionalData/additionalInfoSlice';
-import { getTimerAsText } from '../../../utils/TimeUtils';
+import ScoreDisplay from '../../ScoreDisplay/ScoreDisplay';
 
 const BoardOptionWrapper = styled.div`
   display: flex;
@@ -74,26 +74,14 @@ const NumericStyledInput = ({ onChangeHandler }) => {
       onClick={event => event.stopPropagation()}
     />
   )
-} 
+}
 
 const BestScore = ({ gameMode }) => {
   const bestScores = useSelector(state => state.additionalData.bestScores[gameMode]);
-  const [bestScore, setBestScore] = useState(null);
-
-  useEffect(() => {
-    const minTimeScore = lodash.minBy(bestScores, (obj) => obj.time);
-    setBestScore(minTimeScore);
-  }, [bestScores])
+  const bestScore = lodash.head(bestScores);
 
   return (
-    bestScore ? 
-      (<BoardContentWrapper>
-        <FaTrophy style={{ marginRight: "5px" }}/>
-        { getTimerAsText(bestScore.time) }
-        <div style={{ width: "20px" }}/>
-        <FaChild/>
-        { bestScore.playerName }
-      </BoardContentWrapper>) : null
+    bestScore ? ( <ScoreDisplay {...bestScore}/> ) : null
   )
 
 }

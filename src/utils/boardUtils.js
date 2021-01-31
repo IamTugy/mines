@@ -14,24 +14,12 @@ const excecuteActionOnNearCells = (x, y, height, width, board, action) => {
   }
 };
 
-const addCloseBombs = ( height, width, board ) => {
-  /** Add the amount of boms closed to the cell in all the board **/
-  const addBombsToNearCellsCounter = (i, j, board) => board[i][j].closeBombs += 1;
-  for( let x = 0; x < height; x++) {
-    for( let y = 0; y < width; y++) {
-      if (board[x][y].isBomb) {
-        /** add bomb counter to relatives **/
-        excecuteActionOnNearCells(x, y, height, width, board, addBombsToNearCellsCounter);
-      }
-    }
-  }
-};
-
 export const generateBoard = ({ height, width, bombAmount, randomSeedKey }) => {
   /** Generate a board with only bombs **/
   const randomeSeed = new seedrandom(randomSeedKey);
   let bombsPlaced = 0;
-  let passedCells = 0; 
+  let passedCells = 0;
+  const bombsLocations = [];
   const newBoard = new Array(height);
   for( let i = 0; i < height; i++) {
     newBoard[i] = new Array(width);
@@ -42,14 +30,18 @@ export const generateBoard = ({ height, width, bombAmount, randomSeedKey }) => {
         cellsAmount: height * width - passedCells,
         randomeSeed
       });
+      if (isBomb) {
+        bombsLocations.push([i, j])
+        bombsPlaced += 1;
+      }
       newBoard[i][j].isBomb = isBomb;
-      bombsPlaced += isBomb ? 1 : 0;
       passedCells += 1;
     }
   }
 
   /** Add closeBombs number **/
-  addCloseBombs(height, width, newBoard);
+  const addBombsToNearCellsCounter = (i, j, board) => board[i][j].closeBombs += 1;
+  bombsLocations.map(([x, y]) => excecuteActionOnNearCells( x, y, height, width, newBoard, addBombsToNearCellsCounter))
 
   return newBoard;
 };

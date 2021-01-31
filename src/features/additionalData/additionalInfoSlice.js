@@ -33,6 +33,8 @@ const additionalDataSlice = createSlice({
         defaultValue[state.gameMode] = [];
         const bestScores = lodash.defaults(state.bestScores, defaultValue)
         bestScores[state.gameMode].push({ playerName: state.playerName, time: calculateDiffToNow(moment(state.gameBeginningTime)) })
+        /** save best 10: **/
+        bestScores[state.gameMode] = lodash.sortBy(bestScores[state.gameMode], (obj) => obj.time).slice(0, 25);
         state.bestScores = bestScores;
       }
     },
