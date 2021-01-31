@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { FaHourglassHalf } from 'react-icons/fa';
 
 import { endGame } from '../features/additionalData/additionalInfoSlice';
-import { gameFinalStates, gameWon, gameOnConfigurations } from '../features/board/boardSlice';
+import { gameFinalStates, gameWon, gamePreRunning, gameOnConfigurations } from '../features/board/boardSlice';
 import TopInfoBar from '../components/TopInfo';
 import ChooseBoard from '../components/ChooseBoard/index';
 import Board from '../components/Board/Board';
-import GameEndedDialog from '../components/GameEndedDialog'
+import GameEndedDialog from '../components/GameEndedDialog';
 
 const MainPage = styled.div`
   display: flex;
@@ -17,6 +18,36 @@ const MainPage = styled.div`
   height: 100%;
   width: 100%;
 `;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  font-size: 200px;
+  margin: auto;
+`;
+
+const RenderSwitch = ({ gameState }) => {
+  switch ( gameState ) {
+    case gameOnConfigurations:
+      return <ChooseBoard/>;
+
+    case gamePreRunning:
+      return <LoadingWrapper><FaHourglassHalf/>Loading...</LoadingWrapper>;
+
+    default:
+      return (
+        <>
+          <TopInfoBar/>
+            <Board
+              cellSize={50}
+            />
+          <GameEndedDialog gameState={gameState}/>
+        </>
+      );
+  }
+}
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,16 +61,7 @@ const App = () => {
 
   return (
     <MainPage>
-      {
-      (gameState === gameOnConfigurations) ? <ChooseBoard/> :
-      <>
-        <TopInfoBar/>
-        <Board
-          cellSize={50}
-        />
-        <GameEndedDialog gameState={gameState}/>
-      </>
-    }
+      <RenderSwitch gameState={gameState}/>
     </MainPage>
   );
 }

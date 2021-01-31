@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { calculateDiffToNow, getTimerAsText} from '../../../utils/TimeUtils';
 import { gameFinalStates } from '../../../features/board/boardSlice';
 import InfoButton from '../AbstractInfoButton';
-import HighScoreDialog from './HighScoreDialog'
+import HighScoreDialog from './HighScoreDialog';
 
 import { FaStopwatch } from 'react-icons/fa';
 

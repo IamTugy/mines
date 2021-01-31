@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 import { FaFlag, FaBorderAll } from 'react-icons/fa';
 
-import { createBoard } from '../../../features/board/boardSlice';
+import { createBoard, gamePreRunning, setGameState } from '../../../features/board/boardSlice';
 import { startGame } from '../../../features/additionalData/additionalInfoSlice';
 import ScoreDisplay from '../../ScoreDisplay/ScoreDisplay';
 
@@ -100,6 +100,7 @@ export const CastumBoardOption = () => {
       isClickable={isClickable}
       onClick={() => {
       if ( isClickable )
+        dispatch(setGameState(gamePreRunning));
         dispatch(createBoard({height, width, flagAmount}));
         dispatch(startGame({ gameMode: fullGameMode}));
       }}
@@ -128,8 +129,11 @@ const BoardOption = ({ modeName, height, width, flagAmount }) => {
     <BoardOptionWrapper 
       isClickable
       onClick={() => {
-        dispatch(createBoard({height, width, flagAmount}));
-        dispatch(startGame({ gameMode: fullGameMode }));
+        dispatch(setGameState(gamePreRunning));
+        setImmediate(() => {
+          dispatch(createBoard({height, width, flagAmount}));
+          dispatch(startGame({ gameMode: fullGameMode }));
+        });
       }}
     >
       {modeName}

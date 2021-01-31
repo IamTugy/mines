@@ -1,12 +1,12 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
 import { FaCaretSquareLeft } from 'react-icons/fa';
 
-import ScoreDisplay from '../../ScoreDisplay/ScoreDisplay'
+import ScoreDisplay from '../../ScoreDisplay/ScoreDisplay';
 
 const DialogWrapper = styled.div`
   display: flex;
@@ -57,7 +57,6 @@ const NoDataText = styled.div`
 `;
 
 export const HighScoreDialog = ({open, closeDialog}) => {
-  const dispatch = useDispatch();
   const gameMode = useSelector(state => state.additionalData.gameMode);
   const bestScores = useSelector(state => state.additionalData.bestScores[gameMode]);
 

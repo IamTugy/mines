@@ -4,6 +4,7 @@ import { generateBoard, exposeNearCells } from '../../utils/boardUtils';
 export const gameWon = 'WON';
 export const gameLost = 'LOST';
 export const gameOnConfigurations = 'onConfigurations';
+export const gamePreRunning = 'preRunning';
 export const gameRunning = 'running';
 
 export const gameFinalStates = [gameWon, gameLost];
@@ -61,13 +62,18 @@ const toggleFlag = (state, action) => {
 
 const displayCell = (state, action) => {
   const { x, y } = action.payload;
-  const {isBomb, hasFlag} = state.cellsContent[x][y];
+  const {isBomb, hasFlag, closeBombs} = state.cellsContent[x][y];
 
   if (hasFlag) return;
 
   if (isBomb) {
     state.cellsContent[x][y].isSelected = true;
     state.gameState = gameLost;
+    return;
+  }
+
+  if (closeBombs > 0) {
+    state.cellsContent[x][y].isSelected = true;
     return;
   }
 
@@ -87,14 +93,13 @@ const boardSlice = createSlice({
   reducers: {
     createBoard: (state, action) => {
       const { height, width, flagAmount } = action.payload;
-
-      state.gameState = gameRunning;
       state.boardHeight = height;
       state.boardWidth = width;
       state.totalFlagsAmount = flagAmount;
       state.usedFlagsAmount = 0;
       state.bombsDetected = 0;
       state.cellsContent = generateBoard({ height, width, bombAmount: flagAmount, randomSeedKey: state.randomSeedKey});
+      state.gameState = gameRunning;
     },
 
     setIsFlagMode: (state, action) => {
@@ -111,6 +116,10 @@ const boardSlice = createSlice({
       } else {
         displayCell(state, action);
       }
+    },
+
+    setGameState: (state, action) => {
+      state.gameState = action.payload;
     }
   }
 })
@@ -119,7 +128,8 @@ export const {
   createBoard,
   resetBoard,
   setIsFlagMode,
-  handleUserClick
+  handleUserClick,
+  setGameState
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
