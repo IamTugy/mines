@@ -21,7 +21,7 @@ You can access the game [here](https://mmm1513.github.io/mines-web/).
 
 ## Run the app
 You dont trust github-pages and want to host the app yourself?
-no problem. all you need to do is to copy thise next lines:
+no problem. all you need to do is to copy this next lines:
 ```bash
 git clone https://github.com/mmm1513/mines-web.git
 cd mines-web
@@ -54,7 +54,7 @@ Output example:
 
 
 ## Publish
-To publish the app copy thise next lines:
+To publish the app copy this next lines:
 ```bash
 yarn predeploy  # building the app
 yarn deploy  # publish to github-pages
