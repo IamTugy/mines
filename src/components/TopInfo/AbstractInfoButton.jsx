@@ -6,7 +6,7 @@ const InfoButtonWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  cursor: ${props => props.onClick && "pointer"};
 
   height: 100px;
   min-width: 250px;

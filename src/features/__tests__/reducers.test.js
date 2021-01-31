@@ -1,5 +1,4 @@
 import boardReduser from '../board/boardSlice';
-import rootReducer from '../../app/rootReducer'
 
 import {showEmptyCellsGivenState, showEmptyCellsExpectedState} from '../__fixtures__/shownEmptyCells';
 import {showEmptyButNoFlagGivenState, showEmptyButNoFlagsExpectedState} from '../__fixtures__/showEmptyButNoFlag';
@@ -11,6 +10,7 @@ import {wontRevealFlagGivenState, wontRevealFlagExpectedState} from '../__fixtur
 import {createBoardGivenState, createBoardExpectedState} from '../__fixtures__/createBoard';
 import {clickBombAndLoseGivenState, clickBombAndLoseExpectedState} from '../__fixtures__/clickBombAndLose';
 import {winGameGivenState, winGameExpectedState} from '../__fixtures__/winGame';
+import {clickANumberGivenState, clickANumberExpectedState} from '../__fixtures__/clickANumber';
 
 describe('test board reducer', () => {
   it('should reveal the right cells on reveal action on empty space', () => {
@@ -52,16 +52,19 @@ describe('test board reducer', () => {
     const actualState = boardReduser(createBoardGivenState, {type:'board/createBoard',payload:{height:10,width:20,flagAmount:15}});
     expect(actualState).toEqual(createBoardExpectedState);
   })
-})
-
-describe('test combine reducers', () => {
-  it('should stop the game when bomb was clicked', () => {
-    const actualState = rootReducer(clickBombAndLoseGivenState, {type:'board/handleUserClick',payload:{x:4,y:8}});
-    expect(actualState).toEqual(clickBombAndLoseExpectedState);
-  })
   
   it('should end the game and win when the last bomb was flagged', () => {
-    const actualState = rootReducer(winGameGivenState, {type:'board/handleUserClick',payload:{x:9,y:12}});
+    const actualState = boardReduser(winGameGivenState, {type:'board/handleUserClick',payload:{x:8,y:19}});
     expect(actualState).toEqual(winGameExpectedState);
+  })
+
+  it('should stop the game when bomb was clicked', () => {
+    const actualState = boardReduser(clickBombAndLoseGivenState, {type:'board/handleUserClick',payload:{x:4,y:8}});
+    expect(actualState).toEqual(clickBombAndLoseExpectedState);
+  })
+
+  it('should show only the number after clicked on a number cell', () => {
+    const actualState = boardReduser(clickANumberGivenState, {type:'board/handleUserClick',payload:{x:4,y:3}});
+    expect(actualState).toEqual(clickANumberExpectedState);
   })
 })
