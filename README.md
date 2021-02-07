@@ -23,16 +23,16 @@ You can access the game [here](https://mmm1513.github.io/mines-web/).
 You dont trust github-pages and want to host the app yourself?
 no problem. all you need to do is to copy this next lines:
 ```bash
-git clone https://github.com/mmm1513/mines-web.git
-cd mines-web
+git clone https://github.com/mmm1513/mines.git
+cd mines
 yarn start
 ```
 
 
 ## Run the tests:
 ```bash
-git clone https://github.com/mmm1513/mines-web.git
-cd mines-web
+git clone https://github.com/mmm1513/mines.git
+cd mines
 yarn test --watchAll
 ```
 These tests checks all the board logics.
