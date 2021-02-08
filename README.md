@@ -16,7 +16,7 @@ dont worry. all the high scores will be saved for the next time you want to blow
 
 
 ## Access
-You can access the game [here](https://mmm1513.github.io/mines-web/).
+You can access the game [here](https://mmm1513.github.io/mines/).
 
 
 ## Run the app

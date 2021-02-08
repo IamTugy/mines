@@ -93,7 +93,7 @@ export const CastumBoardOption = () => {
   const [flagAmount, setFlagAmount] = useState(null);
   const modeName = 'Custom Mode';
   const fullGameMode = `${modeName} ${height}X${width}/${flagAmount}`;
-  const isClickable = Boolean(height && width && flagAmount);
+  const isClickable = Boolean(height && width && flagAmount && (flagAmount <= (height * width)));
   
   return (
     <CustomOptionWrapper 

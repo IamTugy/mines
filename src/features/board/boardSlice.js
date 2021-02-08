@@ -38,7 +38,18 @@ export const Number = "number";
 export const Empty = "empty";
 
 export const getCellType = (cellData, isSupermanMode) => {
-  return cellData.hasFlag ? Flag : ((cellData.isSelected || isSupermanMode) ? (cellData.isBomb ? Bomb : ((cellData.closeBombs > 0) ? Number : Empty)) : Empty);
+  if ( cellData.hasFlag ) {
+    return Flag;
+  }
+  if ( cellData.isSelected || isSupermanMode ) {
+    if ( cellData.isBomb ) {
+      return Bomb;
+    }
+    if ( cellData.closeBombs > 0 ) {
+      return Number;
+    }
+  }
+  return Empty;
 };
 
 const toggleFlag = (state, action) => {
