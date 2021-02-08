@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/mines-web/static/css/main.a72fae33.chunk.css",
-    "main.js": "/mines-web/static/js/main.92f31233.chunk.js",
-    "main.js.map": "/mines-web/static/js/main.92f31233.chunk.js.map",
-    "runtime-main.js": "/mines-web/static/js/runtime-main.2c1f37c7.js",
-    "runtime-main.js.map": "/mines-web/static/js/runtime-main.2c1f37c7.js.map",
-    "static/js/2.ba00198a.chunk.js": "/mines-web/static/js/2.ba00198a.chunk.js",
-    "static/js/2.ba00198a.chunk.js.map": "/mines-web/static/js/2.ba00198a.chunk.js.map",
-    "index.html": "/mines-web/index.html",
-    "static/css/main.a72fae33.chunk.css.map": "/mines-web/static/css/main.a72fae33.chunk.css.map",
-    "static/js/2.ba00198a.chunk.js.LICENSE.txt": "/mines-web/static/js/2.ba00198a.chunk.js.LICENSE.txt"
+    "main.css": "/mines/static/css/main.a72fae33.chunk.css",
+    "main.js": "/mines/static/js/main.22be1625.chunk.js",
+    "main.js.map": "/mines/static/js/main.22be1625.chunk.js.map",
+    "runtime-main.js": "/mines/static/js/runtime-main.ac72e268.js",
+    "runtime-main.js.map": "/mines/static/js/runtime-main.ac72e268.js.map",
+    "static/js/2.ece18c07.chunk.js": "/mines/static/js/2.ece18c07.chunk.js",
+    "static/js/2.ece18c07.chunk.js.map": "/mines/static/js/2.ece18c07.chunk.js.map",
+    "index.html": "/mines/index.html",
+    "static/css/main.a72fae33.chunk.css.map": "/mines/static/css/main.a72fae33.chunk.css.map",
+    "static/js/2.ece18c07.chunk.js.LICENSE.txt": "/mines/static/js/2.ece18c07.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.2c1f37c7.js",
-    "static/js/2.ba00198a.chunk.js",
+    "static/js/runtime-main.ac72e268.js",
+    "static/js/2.ece18c07.chunk.js",
     "static/css/main.a72fae33.chunk.css",
-    "static/js/main.92f31233.chunk.js"
+    "static/js/main.22be1625.chunk.js"
   ]
 }
