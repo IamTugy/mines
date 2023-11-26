@@ -3,10 +3,11 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import styled from 'styled-components';
 import { FaBomb, FaFlag } from 'react-icons/fa';
 
-import { 
-    gameFinalStates, Flag, Bomb, Number, Empty, 
-    getCellType, gameWon, handleUserClick 
-} from '../../../features/board/boardSlice';
+import {
+    gameFinalStates, Flag, Bomb, Number, Empty,
+    getCellType, gameWon, handleUserClick, getInitializedCell,
+} from '../../../features/board/boardSlice'
+import {useBoardCell} from '../../../app/hooks'
 
 const selectedColor = "#dedede";
 const shownUnselectedColor = "#757575";
@@ -52,23 +53,13 @@ const CellContent = ({type, number}) => {
 
 
 const Cell = ({ x, y, style }) => {
-    const cellData = useSelector(state => state.board.cellsContent[x][y], shallowEqual);
+    const {cellData: {isSelected, closeBombs}, cellType} = useBoardCell(x, y);
     const gameState = useSelector(state => state.board.gameState);
     const isSupermanMode = useSelector(state => state.additionalData.isSupermanMode);
     const dispatch = useDispatch();
 
-    const [cellType, setCellType] = useState(Empty);
-    const [isCellSelected, setIsCellSelected] = useState(false);
-    const [closedBombs, setClosedBombs] = useState(Empty);
-
-    useEffect(() => {
-        setIsCellSelected(cellData.isSelected);
-        setClosedBombs(cellData.closeBombs);
-        setCellType(getCellType(cellData, (isSupermanMode || gameFinalStates.includes(gameState))));
-    }, [cellData, isSupermanMode, gameState])
-
     const handleClick = () => {
-        if (!isCellSelected && !gameFinalStates.includes(gameState)) {
+        if (!isSelected && !gameFinalStates.includes(gameState)) {
             dispatch(handleUserClick({x, y}));
         }
     }
@@ -76,7 +67,7 @@ const Cell = ({ x, y, style }) => {
     return (
         <CellWrapper style={style}>
             <CellBackground 
-                isSelected={isCellSelected}
+                isSelected={isSelected}
                 gameState={gameState}
                 cellType={cellType}
                 isSupermanMode={ isSupermanMode}
@@ -84,7 +75,7 @@ const Cell = ({ x, y, style }) => {
             >
                 <CellContent 
                     type={cellType} 
-                    number={closedBombs}
+                    number={closeBombs}
                 />
             </CellBackground>
         </CellWrapper>

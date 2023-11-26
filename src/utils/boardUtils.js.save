@@ -1,4 +1,4 @@
-import seedrandom from 'seedrandom';
+mport seedrandom from 'seedrandom';
 
 import { getInitializedCell, getCellType, Empty } from '../features/board/boardSlice';
 
@@ -30,11 +30,12 @@ export const generateBoardUsingFisherYatesAlgorithm = ({ height, width, bombAmou
   }
 
   const newBoard = {};
-  const bombLocationsList = Object.values(Object.entries(bombLocations).filter(([_, value]) => value)).map(([location, _]) => location);
-  for (const location of bombLocationsList) {
+  const bombLocationsList = [];
+  for (const location of Object.keys(Object.entries(bombLocations).filter(([_, value]) => value))) {
     const newCell = getInitializedCell()
     newCell.isBomb = true;
     newBoard[location] = newCell;
+    bombLocationsList.push(location)
   }
 
   const addBombsToNearCellsCounter = (board, location) => {
@@ -48,7 +49,7 @@ export const generateBoardUsingFisherYatesAlgorithm = ({ height, width, bombAmou
 
 export const exposeNearCells = (location, height, width, board) => {
   const exposeStack = [location];
-  const exposeCell = (board, location) => {
+  const exposeCell = (location, board) => {
     const cellData = board[location] || getInitializedCell();
     const currentCellType = getCellType(cellData, true);
     if (!cellData.isSelected && (currentCellType === Empty)) {

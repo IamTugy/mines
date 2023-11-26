@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { generateBoard, exposeNearCells } from '../../utils/boardUtils';
+import {exposeNearCells, generateBoardUsingFisherYatesAlgorithm} from '../../utils/boardUtils'
 
 export const gameWon = 'WON';
 export const gameLost = 'LOST';
@@ -12,7 +12,7 @@ export const gameFinalStates = [gameWon, gameLost];
 const getInitialState = (seed) => {
   return {
     /** The content of the board, two dimentional list of all the data **/
-    cellsContent: null,
+    cellsContent: {},  // key: cell index (0 to boardHeight*boardWidth), value: cell data
     boardHeight: null,
     boardWidth: null,
     totalFlagsAmount: 0,
@@ -52,48 +52,51 @@ export const getCellType = (cellData, isSupermanMode) => {
   return Empty;
 };
 
+const getCellData = (state, location) => {
+  state.cellsContent[location] = state.cellsContent[location] || getInitializedCell();
+  return state.cellsContent[location];
+};
+
 const toggleFlag = (state, action) => {
-  const { x, y } = action.payload
-  const cellContent = state.cellsContent[x][y];
-  const isFlagAdded = !cellContent.hasFlag;
+  const { x, y } = action.payload;
+  const location = state.boardWidth * x + y;
+  const currentCellContent = getCellData(state, location);
+  const isFlagAdded = !currentCellContent.hasFlag;
 
   /** if removing a flag or if there are flags left to put another **/
   if ( !isFlagAdded || state.usedFlagsAmount < state.totalFlagsAmount ) {
 
-    if (cellContent.isBomb) {
+    if (currentCellContent.isBomb) {
       state.bombsDetected += isFlagAdded ? 1 : -1;
     }
 
     const isGameWon = state.bombsDetected === state.totalFlagsAmount;
     state.gameState = isGameWon ? gameWon : gameRunning;
-    cellContent.hasFlag = isFlagAdded;
+    currentCellContent.hasFlag = isFlagAdded;
     state.usedFlagsAmount = state.usedFlagsAmount + (isFlagAdded ? 1 : -1);
   }
 };
 
 const displayCell = (state, action) => {
   const { x, y } = action.payload;
-  const {isBomb, hasFlag, closeBombs} = state.cellsContent[x][y];
+  const location = state.boardWidth * x + y;
+  const currentCellContent = getCellData(state, location);
+  const {isBomb, hasFlag, closeBombs} = currentCellContent;
 
   if (hasFlag) return;
 
   if (isBomb) {
-    state.cellsContent[x][y].isSelected = true;
+    currentCellContent.isSelected = true;
     state.gameState = gameLost;
     return;
   }
 
   if (closeBombs > 0) {
-    state.cellsContent[x][y].isSelected = true;
+    currentCellContent.isSelected = true;
     return;
   }
 
-  exposeNearCells({
-    x, y, 
-    height: state.boardHeight, 
-    width: state.boardWidth,
-    board: state.cellsContent
-  });
+  exposeNearCells(location, state.boardHeight, state.boardWidth, state.cellsContent);
 };
 
 
@@ -109,7 +112,7 @@ const boardSlice = createSlice({
       state.totalFlagsAmount = flagAmount;
       state.usedFlagsAmount = 0;
       state.bombsDetected = 0;
-      state.cellsContent = generateBoard({ height, width, bombAmount: flagAmount, randomSeedKey: state.randomSeedKey});
+      state.cellsContent = generateBoardUsingFisherYatesAlgorithm({ height, width, bombAmount: flagAmount, randomSeedKey: state.randomSeedKey});
       state.gameState = gameRunning;
     },
 
