@@ -1,0 +1,44 @@
+
+<html>
+  <body>
+    <style>
+      table {
+        margin: auto;
+        position: relative;
+        top: 100px;
+        -webkit-user-select: none;
+      }
+      div, a {
+        position: relative;
+        text-align: center;
+        margin: auto;
+      }
+      td {
+        position: relative;
+        border: 1px black solid;
+        padding: 0px;
+        margin: 0px;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        vertical-align: middle;
+      }
+      table div {
+        position: absolute;
+        z-index: 1;
+        top: 0px;
+        left: 0px;
+        width: 50px;
+        height: 50px;
+        background-color: #BBBBBB;
+      }
+    </style>
+
+    <input type="checkbox" id="superman" onclick="superman()"><label for="superman">superman</label><br/>
+    width<input id="width" value="10"/>height<input id="height" value="8"/>mines<input id="mines" value="9"/><br/>
+    <a href="#" onclick="initGame(); return false;">New game</a>
+    <div id="flags-left"></div>
+    <table id="game"></table>
+    <script>(function(){"use strict";var e,n,t;var a,i,l,o,d;function u(){localStorage.minesweeper=JSON.stringify({options:{width:n,height:t,mines:e},game:a})}function r(){try{var e=JSON.parse(localStorage.minesweeper);if(e.game){document.getElementById("width").value=e.options.width;document.getElementById("height").value=e.options.height;document.getElementById("mines").value=e.options.mines}return e.game}catch(n){return undefined}}window.superman=o=function(){var e=document.getElementById("superman").checked?.5:1;for(var n=0;n<d.length;n++){d[n].style.opacity=e}};function f(){document.getElementById("flags-left").innerHTML="Flags left: "+(e-i.good-i.bad)}function g(e,t){function i(e){if(e>=0&&e<a.length){t(e)}}if(e%n!==0){i(e-1);i(e-n-1);i(e+n-1)}if(e%n!==n-1){i(e+1);i(e-n+1);i(e+n+1)}i(e-n);i(e+n)}function m(e){if(!a[e].revealed&&!a[e].flagged){d[e].style.display="none";if(a[e].value==="*"){setTimeout(function(){alert("You lose!!!");l()},10)}else{a[e].revealed=true;if(a[e].value===0){g(e,m)}}}}function c(e){var n=0;g(e,function(e){n+=a[e].flagged?1:0});if(n>=a[e].value){g(e,m)}u()}function s(n,t){if(t.shiftKey){if(i.good+i.bad===e){alert("No more flags left!!!")}else{a[n].flagged=!a[n].flagged;d[n].innerHTML=a[n].flagged?"Flag":"";i[a[n].value==="*"?"good":"bad"]+=a[n].flagged?1:-1;if(i.good===e){setTimeout(function(){alert("You win!!!");l()},10)}f()}}else{m(n)}u()}function v(){var e="";for(var t=0;t<n;t++){e+="<td><span></span><div></div></td>"}return e}function h(){var e="";for(var n=0;n<t;n++){e+="<tr>"+v()+"</tr>"}return e}function y(){a=[];function i(e){if(a[e].value!=="*"){a[e].value++}}for(var l=0;l<n*t;l++){a[l]={value:0,revealed:false,flagged:false}}for(l=0;l<e;l++){var o=Math.floor(Math.random()*a.length);if(a[o].value!=="*"){a[o].value="*";g(o,i)}else{l--}}return a}window.initGame=l=function(l){document.getElementById("width").value=n=parseInt(document.getElementById("width").value)||0;document.getElementById("height").value=t=parseInt(document.getElementById("height").value)||0;document.getElementById("mines").value=e=Math.min(n*t,parseInt(document.getElementById("mines").value)||0);a=l||y();u();document.getElementById("game").innerHTML=h();var r=document.getElementsByTagName("span");i={good:0,bad:0};e=0;d=[];for(var g=0;g<r.length;g++){if(a[g].flagged){i[a[g].value==="*"?"good":"bad"]++}if(a[g].value==="*"){e++}r[g].innerHTML=a[g].value||"";d[g]=r[g].parentNode.children[1];d[g].style.display=a[g].revealed?"none":"block";d[g].innerHTML=a[g].flagged?"Flag":"";d[g].parentNode.onclick=s.bind(undefined,g);d[g].parentNode.ondblclick=c.bind(undefined,g)}o();f()};l(r())})();</script>
+  </body>
+</html>
